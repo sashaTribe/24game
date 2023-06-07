@@ -119,7 +119,6 @@ def multiple_solutions_24_game(node):
 
                     # Subtraction
                     tuple = (str(a) + "sub" + str(b))
-                    #remaining_paths.append(tuple)
                     find_a_solution([a - b] + remaining_node,path_sequence + [tuple])
                         
                     # Multiplication
@@ -130,7 +129,6 @@ def multiple_solutions_24_game(node):
                     # Division
                     if b != 0:
                         tuple = (str(a) + "div" + str(b))
-                        #remaining_paths.append(tuple)
                         find_a_solution([a / b] + remaining_node,path_sequence + [tuple])
                         
     find_a_solution(node)
@@ -148,9 +146,7 @@ def main2():
     processing_time = (end-start) * 10**3
     if solutions:
         print("Here are the different solutions: ")
-        #print(solutions[0])
         for solution in solutions:
-            #solution.reverse()
             print(solution)
     else:
         print("No solutions found")
@@ -159,102 +155,3 @@ def main2():
 main2()
 
 
-"""def generate_start_node(graph,values,node):
-    start_node = values
-    new_values = []
-    new_values = itertools.permutations(values)
-    #graph = Graph(24,directed=True)
-    for i in new_values:
-        graph[i] = (tuple(start_node),tuple(i),"")
-    return graph
-    
-
-
-def generateTree(node,graph):
-    if len(node) > 1:
-        for i in operations:
-            new_node = list(node)
-            action = i
-            if i == "plus":
-                a1 = node[0] + node[1]
-            elif i == "minus":
-                a1 = node[0] - node[1]
-            elif i == "divide":
-                a1 = node[0] / node[1]
-            else:
-                a1 = node[0] * node[1]
-            new_node.pop(0)
-            new_node.pop(0)
-            new_node.insert(0,a1)
-            add_node = tuple(new_node)
-            graph[node] = (node,add_node,i)
-            #node.append(add_node)
-            generateTree(add_node,graph)
-    else:
-        graph[node]=(node,None,None)
-        #node.append(node)
-
-   
-def generate_path(node, graph, start_node):
-    current_node = start_node
-    path = []
-    for i in graph.keys():
-        if i == current_node:
-            for edge in i:
-                if edge[0] == node and edge[1] != ():
-                    path.append(edge)
-                    new_node = edge[1]
-                    current_node = new_node
-    return path
-
-
-
-
-def dfs(visited,graph, start_node,goal_node,path=[],operations=[]):
-    path.append(start_node)
-    visited.append(start_node)
-    print("Start node: ", start_node)
-    if start_node == goal_node:
-        print(path)
-        return path
-        
-    for node,edge in graph.items():
-        if node == start_node:
-            new_node = edge(1)
-            if new_node not in visited:
-                result = dfs(visited,graph,new_node,goal_node,path)
-                if result is not None:
-                    return result
-
-
-
-
-
-
-
-def main():
-    node = []
-    graph = {}
-    path = []
-    paths = []
-    
-    graph = generate_start_node(graph,values,node)
-    for i in node:
-        generateTree(i,graph)
-        
-    #print(len(node))
-    #for k,v in graph.items():
-        #paths.append(dfs(path,graph,k))
-
-    #print(node_test)
-    goal_node = (24)
-    visited = []
-    
-    print
-    #print(graph(node[0]))
-    #paths.append(dfs(visited,graph, node[0],goal_node,path))
-    print(values)
-    print(paths)
-    
-main()
-"""
