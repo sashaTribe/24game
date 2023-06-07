@@ -12,7 +12,7 @@ if there is one.
 # This method generates a random list of 4 integers in range [1,13]
 # @param values: an empty list originally
 # @return values: a full list of 4 generated integers
-def generate_start_nodes(values):
+def generate_start_node(values):
     while len(values) < 4:
         value = random.randint(1,13)
         values.append(value)
@@ -20,43 +20,43 @@ def generate_start_nodes(values):
 
 
 # This method finds the first solution and returns it with depth-first-search
-# @params nodes: set of integers (probably wrong word to describe)
+# @params node: set of integers (probably wrong word to describe)
 # @path_sequence: a sequence of strings where each string describes an action of a state
 # @return: bool True or False
-def single_solution_24_game(nodes,path_sequence):
-    if len(nodes) == 1:
-        if nodes[0] == 24:
+def single_solution_24_game(node,path_sequence):
+    if len(node) == 1:
+        if node[0] == 24:
             return True
         else:
             path_sequence.clear()
             return False
-    for i in range(len(nodes)):
-        for j in range(len(nodes)):
+    for i in range(len(node)):
+        for j in range(len(node)):
             if i != j:
-                a = nodes[i]
-                b = nodes[j]
-                remaining_nodes = [nodes[k] for k in range(len(nodes)) if k != i and k != j]
+                a = node[i]
+                b = node[j]
+                remaining_node = [node[k] for k in range(len(node)) if k != i and k != j]
 
                 # Addition
-                if single_solution_24_game([a + b] + remaining_nodes,path_sequence):
+                if single_solution_24_game([a + b] + remaining_node,path_sequence):
                     tuple = (str(a) + "add" + str(b))
                     path_sequence.append(tuple)
                     return True
 
                 # Subtraction
-                if single_solution_24_game([a - b] + remaining_nodes,path_sequence):
+                if single_solution_24_game([a - b] + remaining_node,path_sequence):
                     tuple = (str(a) + "sub" + str(b))
                     path_sequence.append(tuple)
                     return True
 
                 # Multiplication
-                if single_solution_24_game([a * b] + remaining_nodes,path_sequence):
+                if single_solution_24_game([a * b] + remaining_node,path_sequence):
                     tuple = (str(a) + "mu" + str(b))
                     path_sequence.append(tuple)
                     return True
 
                 # Division
-                if b != 0 and single_solution_24_game([a / b] + remaining_nodes,path_sequence):
+                if b != 0 and single_solution_24_game([a / b] + remaining_node,path_sequence):
                     tuple = (str(a) + "div" + str(b))
                     path_sequence.append(tuple)
                     return True
@@ -68,11 +68,11 @@ def main():
     
     values = []
     path_sequence = []
-    nodes = generate_start_nodes(values)
+    node = generate_start_node(values)
     print("FIRST PROGRAM: ")
-    print("Input: ", nodes)
+    print("Input: ", node)
     start = time.time()
-    if single_solution_24_game(nodes,path_sequence):
+    if single_solution_24_game(node,path_sequence):
         print("Yes it does reach to 24")
         path_sequence.reverse()
         print("Found Solution:", path_sequence)
@@ -88,62 +88,62 @@ main()
 # Nested functions
 # outer function contains the variable "path_solutions" to store paths
 # that lead to goal value 24
-# @param nodes : list of integers
+# @param node : list of integers
 # @return path_solutions : list of strings containing paths to solutions
-def multiple_solutions_24_game(nodes):
+def multiple_solutions_24_game(node):
     path_solutions = []
     
     # Similar function to one above except it does not return a boolean value
     # Stores solutions to the list in the outer function
-    # @param nodes : list of integers
+    # @param node : list of integers
     # @param path_sequence: an initialised empty list
 
-    def find_a_solution(nodes, path_sequence=[]):
-        if len(nodes) == 1:
-            if nodes[0] == 24:
+    def find_a_solution(node, path_sequence=[]):
+        if len(node) == 1:
+            if node[0] == 24:
                 path_solutions.append(path_sequence)
             return
             
             
-        for i in range(len(nodes)):
-            for j in range(len(nodes)):
+        for i in range(len(node)):
+            for j in range(len(node)):
                 if i != j:
-                    a = nodes[i]
-                    b = nodes[j]
-                    remaining_nodes = [nodes[k] for k in range(len(nodes)) if k != i and k != j]
+                    a = node[i]
+                    b = node[j]
+                    remaining_node = [node[k] for k in range(len(node)) if k != i and k != j]
             
                     # Addition
                     tuple = (str(a) + "add" + str(b))
-                    find_a_solution([a + b] + remaining_nodes,path_sequence + [tuple])
+                    find_a_solution([a + b] + remaining_node,path_sequence + [tuple])
                         
 
                     # Subtraction
                     tuple = (str(a) + "sub" + str(b))
                     #remaining_paths.append(tuple)
-                    find_a_solution([a - b] + remaining_nodes,path_sequence + [tuple])
+                    find_a_solution([a - b] + remaining_node,path_sequence + [tuple])
                         
                     # Multiplication
                     tuple = (str(a) + "mu" + str(b))
-                    find_a_solution([a * b] + remaining_nodes,path_sequence + [tuple])
+                    find_a_solution([a * b] + remaining_node,path_sequence + [tuple])
                         
 
                     # Division
                     if b != 0:
                         tuple = (str(a) + "div" + str(b))
                         #remaining_paths.append(tuple)
-                        find_a_solution([a / b] + remaining_nodes,path_sequence + [tuple])
+                        find_a_solution([a / b] + remaining_node,path_sequence + [tuple])
                         
-    find_a_solution(nodes)
+    find_a_solution(node)
     return path_solutions
 
 # Main function that generates start node then passes it on to the function above    
 def main2():
     values = []
-    nodes = generate_start_nodes(values)
+    node = generate_start_node(values)
     print("SECOND PROGRAM: ")
-    print("Input: ", nodes)
+    print("Input: ", node)
     start = time.time()
-    solutions = multiple_solutions_24_game(nodes)
+    solutions = multiple_solutions_24_game(node)
     end = time.time()
     processing_time = (end-start) * 10**3
     if solutions:
@@ -159,7 +159,7 @@ def main2():
 main2()
 
 
-"""def generate_start_nodes(graph,values,nodes):
+"""def generate_start_node(graph,values,node):
     start_node = values
     new_values = []
     new_values = itertools.permutations(values)
@@ -188,11 +188,11 @@ def generateTree(node,graph):
             new_node.insert(0,a1)
             add_node = tuple(new_node)
             graph[node] = (node,add_node,i)
-            #nodes.append(add_node)
+            #node.append(add_node)
             generateTree(add_node,graph)
     else:
         graph[node]=(node,None,None)
-        #nodes.append(node)
+        #node.append(node)
 
    
 def generate_path(node, graph, start_node):
@@ -233,16 +233,16 @@ def dfs(visited,graph, start_node,goal_node,path=[],operations=[]):
 
 
 def main():
-    nodes = []
+    node = []
     graph = {}
     path = []
     paths = []
     
-    graph = generate_start_nodes(graph,values,nodes)
-    for i in nodes:
+    graph = generate_start_node(graph,values,node)
+    for i in node:
         generateTree(i,graph)
         
-    #print(len(nodes))
+    #print(len(node))
     #for k,v in graph.items():
         #paths.append(dfs(path,graph,k))
 
@@ -251,8 +251,8 @@ def main():
     visited = []
     
     print
-    #print(graph(nodes[0]))
-    #paths.append(dfs(visited,graph, nodes[0],goal_node,path))
+    #print(graph(node[0]))
+    #paths.append(dfs(visited,graph, node[0],goal_node,path))
     print(values)
     print(paths)
     
