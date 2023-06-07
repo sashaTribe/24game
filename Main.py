@@ -23,7 +23,7 @@ def generate_start_nodes(values):
 # @params nodes: set of integers (probably wrong word to describe)
 # @path_sequence: a sequence of strings where each string describes an action of a state
 # @return: bool True or False
-def solve_24(nodes,path_sequence):
+def single_solution_24_game(nodes,path_sequence):
     if len(nodes) == 1:
         if nodes[0] == 24:
             return True
@@ -38,25 +38,25 @@ def solve_24(nodes,path_sequence):
                 remaining_nodes = [nodes[k] for k in range(len(nodes)) if k != i and k != j]
 
                 # Addition
-                if solve_24([a + b] + remaining_nodes,path_sequence):
+                if single_solution_24_game([a + b] + remaining_nodes,path_sequence):
                     tuple = (str(a) + "add" + str(b))
                     path_sequence.append(tuple)
                     return True
 
                 # Subtraction
-                if solve_24([a - b] + remaining_nodes,path_sequence):
+                if single_solution_24_game([a - b] + remaining_nodes,path_sequence):
                     tuple = (str(a) + "sub" + str(b))
                     path_sequence.append(tuple)
                     return True
 
                 # Multiplication
-                if solve_24([a * b] + remaining_nodes,path_sequence):
+                if single_solution_24_game([a * b] + remaining_nodes,path_sequence):
                     tuple = (str(a) + "mu" + str(b))
                     path_sequence.append(tuple)
                     return True
 
                 # Division
-                if b != 0 and solve_24([a / b] + remaining_nodes,path_sequence):
+                if b != 0 and single_solution_24_game([a / b] + remaining_nodes,path_sequence):
                     tuple = (str(a) + "div" + str(b))
                     path_sequence.append(tuple)
                     return True
@@ -72,7 +72,7 @@ def main():
     print("FIRST PROGRAM: ")
     print("Input: ", nodes)
     start = time.time()
-    if solve_24(nodes,path_sequence):
+    if single_solution_24_game(nodes,path_sequence):
         print("Yes it does reach to 24")
         path_sequence.reverse()
         print("Found Solution:", path_sequence)
@@ -86,19 +86,22 @@ def main():
 main()
 
 # Nested functions
-# outer function contains the
-def different_solution_24_game(nodes):
+# outer function contains the variable "path_solutions" to store paths
+# that lead to goal value 24
+# @param nodes : list of integers
+# @return path_solutions : list of strings containing paths to solutions
+def multiple_solutions_24_game(nodes):
     path_solutions = []
     
+    # Similar function to one above except it does not return a boolean value
+    # Stores solutions to the list in the outer function
+    # @param nodes : list of integers
+    # @param path_sequence: an initialised empty list
+
     def find_a_solution(nodes, path_sequence=[]):
         if len(nodes) == 1:
             if nodes[0] == 24:
-                #print("solution found!")
                 path_solutions.append(path_sequence)
-                #path_sequence.clear()
-            #else:
-                #
-            
             return
             
             
@@ -108,7 +111,7 @@ def different_solution_24_game(nodes):
                     a = nodes[i]
                     b = nodes[j]
                     remaining_nodes = [nodes[k] for k in range(len(nodes)) if k != i and k != j]
-                    #remaining_paths = [path_sequence[k] for k in range(len(path_sequence)) if k != i and k != j]
+            
                     # Addition
                     tuple = (str(a) + "add" + str(b))
                     find_a_solution([a + b] + remaining_nodes,path_sequence + [tuple])
@@ -121,7 +124,6 @@ def different_solution_24_game(nodes):
                         
                     # Multiplication
                     tuple = (str(a) + "mu" + str(b))
-                    #remaining_paths.append(tuple)
                     find_a_solution([a * b] + remaining_nodes,path_sequence + [tuple])
                         
 
@@ -133,14 +135,15 @@ def different_solution_24_game(nodes):
                         
     find_a_solution(nodes)
     return path_solutions
-        
+
+# Main function that generates start node then passes it on to the function above    
 def main2():
     values = []
     nodes = generate_start_nodes(values)
     print("SECOND PROGRAM: ")
     print("Input: ", nodes)
     start = time.time()
-    solutions = different_solution_24_game(nodes)
+    solutions = multiple_solutions_24_game(nodes)
     end = time.time()
     processing_time = (end-start) * 10**3
     if solutions:
