@@ -1,31 +1,6 @@
 import sys
 import random
 import time
-def main():
-    path_sequence = []
-    print("Pick a range of values: ")
-    min_val = int(input("Minimum value: "))
-    max_val = int(input("Maximum value: "))
-    num_of_vals = int(input("Enter number of values to be generated: "))
-    values = []
-    for i in range(4):
-        input = int(input("Enter Number: "))
-        values.append(input)
-    start_node = generate_start_node(values, num_of_vals,min_val,max_val)
-    goal_val = int(input("Enter goal value: "))
-    start = time.time()
-    if single_solution_M_game(start_node,path_sequence, goal_val):
-        print("Yes it does reach to ", goal_val)
-        path_sequence.reverse()
-        print("Found Solution:", path_sequence)
-
-    else:
-        print("It never reaches to ", goal_val)
-    end = time.time()
-    processing_time = (end - start) * 10**3
-    print("Processing time: " + str(processing_time) + "ms")
-
-    
 
 def generate_start_node(values,num_of_vals, min, max):
     while len(values) < num_of_vals:
@@ -72,3 +47,27 @@ def single_solution_M_game(node,path_sequence,goal_val):
                     return True
 
     return False  
+
+def main():
+    path_sequence = []
+    print("Pick a range of values: ")
+    min_val = int(input("Minimum value: "))
+    max_val = int(input("Maximum value: "))
+    num_of_vals = int(input("Enter number of values to be generated: "))
+    values = []
+    for i in range(4):
+        input = int(input("Enter Number: "))
+        values.append(input)
+    start_node = generate_start_node(values, num_of_vals,min_val,max_val)
+    goal_val = int(input("Enter goal value: "))
+    start = time.time()
+    if single_solution_M_game(start_node,path_sequence, goal_val):
+        print("Yes it does reach to ", goal_val)
+        path_sequence.reverse()
+        print("Found Solution:", path_sequence)
+
+    else:
+        print("It never reaches to ", goal_val)
+    end = time.time()
+    processing_time = (end - start) * 10**3
+    print("Processing time: " + str(processing_time) + "ms")
