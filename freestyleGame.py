@@ -55,11 +55,9 @@ def main():
     max_val = int(input("Maximum value: "))
     num_of_vals = int(input("Enter number of values to be generated: "))
     values = []
-    for i in range(4):
-        input = int(input("Enter Number: "))
-        values.append(input)
     start_node = generate_start_node(values, num_of_vals,min_val,max_val)
     goal_val = int(input("Enter goal value: "))
+    print("Input node: ", start_node)
     start = time.time()
     if single_solution_M_game(start_node,path_sequence, goal_val):
         print("Yes it does reach to ", goal_val)
@@ -71,3 +69,5 @@ def main():
     end = time.time()
     processing_time = (end - start) * 10**3
     print("Processing time: " + str(processing_time) + "ms")
+
+main()
