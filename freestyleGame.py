@@ -47,6 +47,50 @@ def single_solution_M_game(node,path_sequence,goal_val):
                     return True
 
     return False  
+def multiple_solutions_M_game(node, goal_node):
+    path_solutions = []
+    
+    # Similar function to one above except it does not return a boolean value
+    # Stores solutions to the list in the outer function
+    # @param node : list of integers
+    # @param path_sequence: an initialised empty list
+
+    def find_solutions(node, goal_node, path_sequence=[]):
+        if len(node) == 1:
+            if node[0] == goal_node:
+                path_solutions.append(path_sequence)
+            return
+            
+            
+        for i in range(len(node)):
+            for j in range(len(node)):
+                if i != j:
+                    a = node[i]
+                    b = node[j]
+                    remaining_node = [node[k] for k in range(len(node)) if k != i and k != j]
+            
+                    # Addition
+                    tuple = (str(a) + "add" + str(b))
+                    find_solutions([a + b] + remaining_node,goal_node,path_sequence + [tuple])
+                        
+
+                    # Subtraction
+                    tuple = (str(a) + "sub" + str(b))
+                    find_solutions([a - b] + remaining_node,goal_node,path_sequence + [tuple])
+                        
+                    # Multiplication
+                    tuple = (str(a) + "mu" + str(b))
+                    find_solutions([a * b] + remaining_node,goal_node,path_sequence + [tuple])
+                        
+
+                    # Division
+                    if b != 0:
+                        tuple = (str(a) + "div" + str(b))
+                        find_solutions([a / b] + remaining_node,goal_node,path_sequence + [tuple])
+                        
+    find_solutions(node, goal_node)
+    return path_solutions
+
 
 def main():
     path_sequence = []
