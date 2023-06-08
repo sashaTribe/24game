@@ -114,4 +114,18 @@ def main():
     processing_time = (end - start) * 10**3
     print("Processing time: " + str(processing_time) + "ms")
 
+    print("MULTIPLE SOLUTIONS: ")
+    print("Input: ", start_node)
+    start = time.time()
+    solutions = multiple_solutions_M_game(start_node, goal_val)
+    end = time.time()
+    processing_time = (end-start) * 10**3
+    if solutions:
+        print("Here are the different solutions: ")
+        for solution in solutions:
+            print(solution)
+    else:
+        print("No solutions found")
+    print("Processing time: " + str(processing_time) + "ms")
+
 main()
